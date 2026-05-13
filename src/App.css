@@ -182,3 +182,34 @@
     border-right-color: var(--border);
   }
 }
+.music-list{
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 0;
+
+}
+.music-list>li{
+    background-color: rgba(255, 255, 255, 0.226);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+button{
+  border: none;
+  width: fit-content;
+  padding: 16px;
+  background-color: blueviolet;
+  border-radius: 10px;
+  box-shadow: 0 5px 0 rgb(71, 22, 117);
+  transition: 300ms;
+}
+button:active{
+  background-color: rgb(109, 37, 177);
+  transform: translateY(5px);
+  box-shadow: 0 0 0 rgb(71, 22, 117);
+}
