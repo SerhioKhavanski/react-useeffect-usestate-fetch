@@ -34,25 +34,29 @@ function App() {
 
   }
  
-
-
   return (
     <>
     <h1>Musicfun Player, it-incubator-io</h1>
     <button type='button' onClick={()=>setSelectedTracId(null)}>reset selection</button>
-      <ul className='music-list'>
-        {tracks.map(track =>(
-          <li style={{
-            border: track.id===selectedTracId ? '1px solid orange': 'none'
-          }}
-            key={track.id}>
-            <div onClick={()=>{
-              setSelectedTracId(track.id)
-            }} >{track.attributes.title}</div>
-            <audio src={track.attributes.attachments[0].url} controls></audio>
-          </li>
-        ))}
-      </ul>
+        <div className='player'>
+          <ul className='music-list'>
+            {tracks.map(track =>(
+              <li style={{
+                border: track.id===selectedTracId ? '1px solid orange': 'none'
+              }}
+                key={track.id}>
+                <div onClick={()=>{
+                  setSelectedTracId(track.id)
+                }} >{track.attributes.title}</div>
+                <audio src={track.attributes.attachments[0].url} controls></audio>
+              </li>
+            ))}
+          </ul>
+          <div className="info">
+            <h3>Details</h3>
+            {selectedTracId===null?<span>Track is not selected</span>:''}
+          </div>
+        </div>    
     </>
   )
 }
