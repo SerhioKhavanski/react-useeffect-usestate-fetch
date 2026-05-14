@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [selectedTracId, setSelectedTracId] = useState(null)
-  const[tracks,setTraks]=useState(null)
+  const [selectedTrackId, setSelectedTrackId] = useState(null)
+  const [selectedTrack, setSelectedTrack] = useState(null)
+  const [tracks,setTraks]=useState(null)
 
   useEffect(()=>{
     fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks',{
@@ -37,24 +38,44 @@ function App() {
   return (
     <>
     <h1>Musicfun Player, it-incubator-io</h1>
-    <button type='button' onClick={()=>setSelectedTracId(null)}>reset selection</button>
+    <button type='button' onClick={()=>{
+      setSelectedTrackId(null) 
+      setSelectedTrack(null)
+      }}>reset selection</button>
+
         <div className='player'>
           <ul className='music-list'>
             {tracks.map(track =>(
               <li style={{
-                border: track.id===selectedTracId ? '1px solid orange': 'none'
+                border: track.id===selectedTrackId ? '1px solid orange': 'none'
               }}
                 key={track.id}>
                 <div onClick={()=>{
-                  setSelectedTracId(track.id)
+                  setSelectedTrackId(track.id)
+
+                   fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks/${track.id}`,{
+                      headers:{
+                        'api-key':'332f2e3f-8919-4562-981d-3178b715a51d'
+                      }
+                    }).then(res=>res.json())
+                    .then(json=>setSelectedTrack(json.data))
+
                 }} >{track.attributes.title}</div>
                 <audio src={track.attributes.attachments[0].url} controls></audio>
               </li>
             ))}
           </ul>
           <div className="info">
-            <h3>Details</h3>
-            {selectedTracId===null?<span>Track is not selected</span>:''}
+            <h2>Details</h2>
+            {selectedTrack===null?<span>Track is not selected</span>:
+              <div>
+                <h3>{selectedTrack.attributes.title}</h3>
+                <p>
+                  <h4>Lyrics</h4>
+                  {selectedTrack.attributes.lyrics ?? 'no lyrics'}
+                </p>
+              </div>
+            }
           </div>
         </div>    
     </>
