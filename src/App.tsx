@@ -15,6 +15,20 @@ function App() {
     .then(json=>setTraks(json.data))
   },[])
 
+  useEffect(()=>{
+
+  if(!selectedTrackId){
+    return
+  }
+
+      fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks/${selectedTrackId}`,{
+          headers:{
+            'api-key':'332f2e3f-8919-4562-981d-3178b715a51d'
+          }
+        }).then(res=>res.json())
+        .then(json=>setSelectedTrack(json.data))
+  },[selectedTrackId])
+
 
   if(tracks === null){
     return(
@@ -52,14 +66,6 @@ function App() {
                 key={track.id}>
                 <div onClick={()=>{
                   setSelectedTrackId(track.id)
-
-                   fetch(`https://musicfun.it-incubator.app/api/1.0/playlists/tracks/${track.id}`,{
-                      headers:{
-                        'api-key':'332f2e3f-8919-4562-981d-3178b715a51d'
-                      }
-                    }).then(res=>res.json())
-                    .then(json=>setSelectedTrack(json.data))
-
                 }} >{track.attributes.title}</div>
                 <audio src={track.attributes.attachments[0].url} controls></audio>
               </li>
@@ -67,18 +73,19 @@ function App() {
           </ul>
           <div className="info">
             <h2>Details</h2>
-            {selectedTrack===null?<span>Track is not selected</span>
-            :selectedTrackId!==selectedTrack.id?<span>Loading...</span>
-            :
-              <div>
+
+            {!selectedTrack&&!selectedTrackId&&<span>Track is not selected</span>}
+            {!selectedTrack&&selectedTrackId&&<span>Loading...</span>}
+            {selectedTrack&&selectedTrackId&&selectedTrack.id!==selectedTrackId&&<span>Loading...</span>}
+            {selectedTrack
+            &&<div>
                 <h3>{selectedTrack.attributes.title}</h3>
                 <h4>Lyrics</h4>
 
                 <p>
                   {selectedTrack.attributes.lyrics ?? 'no lyrics'}
                 </p>
-              </div>
-            }
+              </div>}
           </div>
         </div>    
     </>
