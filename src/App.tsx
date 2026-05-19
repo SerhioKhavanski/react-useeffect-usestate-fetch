@@ -33,7 +33,7 @@ function App() {
   if(tracks === null){
     return(
       <>
-        <h1>Musicfun Player, it-incubator-io</h1>
+        <h1>Music Player</h1>
         <span>Loading...</span>
       </>
     )
@@ -51,7 +51,7 @@ function App() {
  
   return (
     <>
-    <h1>Musicfun Player, it-incubator-io</h1>
+    <h1>Music Player</h1>
     <button type='button' onClick={()=>{
       setSelectedTrackId(null) 
       setSelectedTrack(null)
@@ -71,6 +71,7 @@ function App() {
               </li>
             ))}
           </ul>
+
           <div className="info">
             <h2>Details</h2>
 
